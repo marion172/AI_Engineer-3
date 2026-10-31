@@ -1,0 +1,31 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# Variables de entorno con claves secretas
+.env
+
+# Base de datos vectorial local (ChromaDB)
+vectorstore/
+
+# Cache de Python y bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Testing y Linters
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# IDEs
+.vscode/
+.idea/
+
