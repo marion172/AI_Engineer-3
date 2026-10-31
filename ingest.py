@@ -4,19 +4,11 @@ Carga documentos desde /data, fragmenta con RecursiveCharacterTextSplitter y
 persiste los embeddings en una colección local de ChromaDB.
 """
 
+import config  # Configuración inicial y compatibilidad de entorno
 import os
-import sys
 import argparse
 from pathlib import Path
 from typing import List
-
-# Asegurar encoding UTF-8 en consola de Windows para evitar errores con caracteres especiales
-if sys.platform == "win32":
-    try:
-        sys.stdout.reconfigure(encoding="utf-8")
-        sys.stderr.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
 
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -50,9 +42,9 @@ def load_documents_from_directory(data_path: Path) -> List[Document]:
     if not file_paths:
         raise ValueError(f"No se encontraron archivos .md o .txt en {data_path}")
 
-    print(f"\n📂 Encontrados {len(file_paths)} archivos para procesar en {data_path}:")
+    print(f"\n[INFO] Encontrados {len(file_paths)} archivos para procesar en {data_path}:")
     for file_path in sorted(file_paths):
-        print(f"   • {file_path.name}")
+        print(f"   * {file_path.name}")
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
 
@@ -90,27 +82,25 @@ def split_documents(documents: List[Document]) -> List[Document]:
         )
     
     chunks = text_splitter.split_documents(documents)
-    print(f"\n✂️  Estrategia de Chunking:")
-    print(f"   • Tamaño por chunk: {CHUNK_SIZE} tokens")
-    print(f"   • Overlap: {CHUNK_OVERLAP} tokens")
-    print(f"   • Fragmentos totales generados: {len(chunks)}")
+    print(f"\n[CHUNKING] Estrategia de fragmentacion:")
+    print(f"   * Tamano por chunk: {CHUNK_SIZE} tokens")
+    print(f"   * Overlap: {CHUNK_OVERLAP} tokens")
+    print(f"   * Fragmentos totales generados: {len(chunks)}")
     return chunks
 
 
 def is_database_populated(persist_dir: Path, collection_name: str) -> bool:
     """
-    Verifica si la base de datos ChromaDB ya existe y contiene documentos indexados,
+    Verifica si la base de datos ChromaDB ya existe y contiene la coleccion requerida,
     evitando costos innecesarios y llamadas redundantes a la API de embeddings.
     """
-    if not persist_dir.exists():
+    db_file = persist_dir / "chroma.sqlite3"
+    if not persist_dir.exists() or not db_file.exists():
         return False
     try:
         client = chromadb.PersistentClient(path=str(persist_dir))
-        collections = client.list_collections()
-        for col in collections:
-            if col.name == collection_name and col.count() > 0:
-                return True
-        return False
+        existing_cols = [c.name for c in client.list_collections()]
+        return collection_name in existing_cols
     except Exception:
         return False
 
@@ -127,8 +117,8 @@ def ingest_data(force_reload: bool = False) -> Chroma:
     already_populated = is_database_populated(VECTORSTORE_DIR, COLLECTION_NAME)
 
     if already_populated and not force_reload:
-        print(f"\n✅ La base de datos vectorial en '{VECTORSTORE_DIR}' ya existe y está poblada.")
-        print("   (Usa el flag '--force' para forzar una nueva indexación completa).")
+        print(f"\n[OK] La base de datos vectorial en '{VECTORSTORE_DIR}' ya existe y esta poblada.")
+        print("   (Usa el flag '--force' para forzar una nueva indexacion completa).")
         vectorstore = Chroma(
             collection_name=COLLECTION_NAME,
             persist_directory=str(VECTORSTORE_DIR),
@@ -137,7 +127,7 @@ def ingest_data(force_reload: bool = False) -> Chroma:
         return vectorstore
 
     if force_reload and already_populated:
-        print(f"\n🔄 Modo '--force' detectado: Limpiando colección previa '{COLLECTION_NAME}'...")
+        print(f"\n[RESET] Modo '--force' detectado: Limpiando coleccion previa '{COLLECTION_NAME}'...")
         client = chromadb.PersistentClient(path=str(VECTORSTORE_DIR))
         try:
             client.delete_collection(COLLECTION_NAME)
@@ -151,14 +141,14 @@ def ingest_data(force_reload: bool = False) -> Chroma:
     chunks = split_documents(raw_docs)
 
     # 3. Guardar y persistir en ChromaDB
-    print(f"\n💾 Generando embeddings e indexando en ChromaDB ({VECTORSTORE_DIR})...")
+    print(f"\n[CHROMA] Generando embeddings e indexando en ChromaDB ({VECTORSTORE_DIR})...")
     vectorstore = Chroma.from_documents(
         documents=chunks,
         embedding=embedding_fn,
         collection_name=COLLECTION_NAME,
         persist_directory=str(VECTORSTORE_DIR),
     )
-    print("✅ Ingesta finalizada exitosamente. Colección persistida.")
+    print("[OK] Ingesta finalizada exitosamente. Coleccion persistida.")
     return vectorstore
 
 

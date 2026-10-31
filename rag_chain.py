@@ -3,6 +3,7 @@ Capa de Recuperación (Retriever) y Generación Grounded (LCEL) asíncrona.
 Implementa el flujo RAG con control estricto de alucinaciones y salida estructurada Pydantic.
 """
 
+import config  # Configuración inicial y compatibilidad de entorno
 from typing import List, Optional
 from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
