@@ -34,7 +34,7 @@ load_dotenv(dotenv_path=ENV_PATH)
 # Configuración de carpetas
 DATA_DIR = BASE_DIR / "data"
 VECTORSTORE_DIR = Path(os.getenv("CHROMA_PERSIST_DIRECTORY", str(BASE_DIR / "vectorstore")))
-COLLECTION_NAME = os.getenv("CHROMA_COLLECTION_NAME", "novacore_knowledge_base")
+COLLECTION_NAME = os.getenv("CHROMA_COLLECTION_NAME", "Company_knowledge_base")
 
 # Configuración de chunking
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "500"))

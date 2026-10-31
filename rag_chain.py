@@ -106,7 +106,7 @@ def build_rag_chain():
         [
             (
                 "system",
-                "Eres un asistente técnico especializado de alta precisión y veracidad para la plataforma NovaCore Cloud.\n"
+                "Eres un asistente técnico especializado de alta precisión y veracidad para la plataforma Company Cloud.\n"
                 "Tu única misión es responder a la consulta del usuario basándote EXCLUSIVAMENTE en el CONTEXTO proporcionado.\n\n"
                 "REGLAS INVIOLABLES DE VERACIDAD (FILTRO ANTI-ALUCINACIÓN):\n"
                 "1. Responde solo con información presente de forma explícita en el CONTEXTO.\n"

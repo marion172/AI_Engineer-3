@@ -1,7 +1,7 @@
-# Protocolo de Gestión de Incidentes y Soporte Técnico - NovaCore Cloud
+# Protocolo de Gestión de Incidentes y Soporte Técnico - Company Cloud
 
 ## 1. Niveles de Severidad y Matriz de SLA
-Los incidentes en NovaCore Cloud se tipifican según el impacto en la operación y los usuarios, estableciendo los siguientes Acuerdos de Nivel de Servicio (SLA):
+Los incidentes en Company Cloud se tipifican según el impacto en la operación y los usuarios, estableciendo los siguientes Acuerdos de Nivel de Servicio (SLA):
 
 | Nivel | Definición | Tiempo Máximo de Primera Respuesta | Frecuencia de Actualización de Estado |
 |---|---|---|---|
@@ -14,7 +14,7 @@ Los incidentes en NovaCore Cloud se tipifican según el impacto en la operación
 1. **Detección y Notificación:** Las alertas de monitoreo (Datadog/PagerDuty) disparan llamadas directas al teléfono del Ingeniero de Guardia On-Call.
 2. **Apertura de War Room:** El ingeniero de guardia abre de inmediato una sala de videollamada de emergencia y un canal de Slack dedicado `#incident-sev1-[fecha]`.
 3. **Escalamiento Obligatorio:** Si la causa raíz no es identificada en los primeros **20 minutos**, se escala automáticamente al Engineering Lead y al Director de Infraestructura.
-4. **Comunicaciones a Clientes:** El Incident Commander publica actualizaciones en la página pública de estado (`status.novacore.io`) dentro de los 30 minutos posteriores a la confirmación de la falla.
+4. **Comunicaciones a Clientes:** El Incident Commander publica actualizaciones en la página pública de estado (`status.Company.io`) dentro de los 30 minutos posteriores a la confirmación de la falla.
 
 ## 3. Análisis de Causa Raíz (Post-Mortem / RCA)
 - Para todo incidente calificado como Sev-1 o Sev-2, es obligatorio redactar y publicar un documento de Post-Mortem sin culpas (Blameless Post-Mortem).

@@ -1,7 +1,7 @@
-# Política de Seguridad y Control de Accesos - NovaCore Cloud
+# Política de Seguridad y Control de Accesos - Company Cloud
 
 ## 1. Alcance y Objetivos
-Este documento define los estándares obligatorios de seguridad lógica y control de acceso a la infraestructura de servidores, clústeres y bases de datos de NovaCore Cloud. Aplica a todos los colaboradores, contratistas y sistemas automatizados.
+Este documento define los estándares obligatorios de seguridad lógica y control de acceso a la infraestructura de servidores, clústeres y bases de datos de Company Cloud. Aplica a todos los colaboradores, contratistas y sistemas automatizados.
 
 ## 2. Autenticación Multifactor (MFA)
 - La autenticación multifactor es estrictamente obligatoria para todas las cuentas de usuario con acceso a la red corporativa y consolas administrativas.

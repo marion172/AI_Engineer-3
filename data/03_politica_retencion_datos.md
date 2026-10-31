@@ -1,7 +1,7 @@
-# Política de Clasificación y Retención de Datos - NovaCore Cloud
+# Política de Clasificación y Retención de Datos - Company Cloud
 
 ## 1. Clasificación de Activos de Información
-La información procesada y almacenada en NovaCore Cloud se clasifica en cuatro categorías de criticidad:
+La información procesada y almacenada en Company Cloud se clasifica en cuatro categorías de criticidad:
 - **Nivel 1 - Público:** Información destinada a divulgación general (documentación abierta de API, artículos de marketing).
 - **Nivel 2 - Interno:** Datos operativos de uso exclusivo de empleados (diagramas de red internos, actas de reuniones técnicas).
 - **Nivel 3 - Confidencial:** Información comercial sensible, métricas financieras agregadas y código fuente propietario.

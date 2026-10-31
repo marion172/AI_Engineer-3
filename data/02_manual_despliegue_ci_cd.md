@@ -1,7 +1,7 @@
-# Manual de Despliegue Continuo y Flujo CI/CD - NovaCore Cloud
+# Manual de Despliegue Continuo y Flujo CI/CD - Company Cloud
 
 ## 1. Modelo de Ramas (Branching Strategy)
-NovaCore adopta un modelo de desarrollo basado en tronco (Trunk-Based Development):
+Company adopta un modelo de desarrollo basado en tronco (Trunk-Based Development):
 - La rama `main` contiene el código que refleja el estado de producción o listo para producción.
 - Las ramas de funcionalidad (feature branches) deben tener un ciclo de vida corto, no mayor a 48 horas.
 - Todo Pull Request (PR) requiere la aprobación obligatoria de al menos 2 pares revisores (code reviewers) y la aprobación del pipeline de validación automatizada.

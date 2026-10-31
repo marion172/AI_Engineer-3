@@ -1,12 +1,12 @@
-# Pre-entrega 3: Sistema de Recuperación Semántica Local (RAG)
+# Sistema de Recuperación Semántica Local (RAG)
 
-Sistema de Recuperación Semántica Local (RAG - *Retrieval-Augmented Generation*) implementado de extremo a extremo (End-to-End) con **Python**, **LangChain (LCEL)**, **ChromaDB** y **Pydantic**.
+Sistema de Recuperación Semántica Local (RAG - Retrieval-Augmented Generation) implementado de extremo a extremo (End-to-End) con Python, LangChain (LCEL), ChromaDB y Pydantic.
 
 El sistema recibe consultas del usuario, busca los fragmentos más relevantes en una base de datos vectorial local previamente indexada y genera respuestas fundamentadas estrictamente en dicho contexto, garantizando la mitigación activa de alucinaciones.
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+## Arquitectura del Sistema
 
 ```
                           [ Documentos en /data ]
@@ -39,10 +39,10 @@ El sistema recibe consultas del usuario, busca los fragmentos más relevantes en
 
 ---
 
-## 📁 Estructura del Repositorio
+## Estructura del Repositorio
 
 ```text
-ai_eng_entrega_3/
+AI_Engineer-3/
 ├── data/                               # Dataset documental de ejemplo (.md)
 │   ├── 01_manual_seguridad_accesos.md  # Políticas de acceso, MFA, RBAC y VPN
 │   ├── 02_manual_despliegue_ci_cd.md   # Flujo trunk-based, pruebas y rollback
@@ -63,19 +63,19 @@ ai_eng_entrega_3/
 
 ---
 
-## ⚙️ Decisiones Técnicas y Prevención de Errores Comunes
+## Decisiones Técnicas y Prevención de Errores Comunes
 
 | Error Común Señalado | Solución Implementada en este Proyecto |
 |---|---|
-| **El "Contexto Infinito" / Lost in the Middle** | El retriever está parametrizado con `top_k = 4` (`search_kwargs={"k": 4}`). Solo se inyectan en el prompt los fragmentos más relevantes, optimizando costos de tokens y concentración de atención del LLM. |
-| **Embeddings no coincidentes** | Se centralizó la instanciación en `embeddings.py` (`get_embedding_function()`). Tanto la ingesta en `ingest.py` como la consulta en `rag_chain.py` consumen exactamente el mismo modelo y parámetros. |
-| **Falta de persistencia** | La función `is_database_populated()` verifica si `./vectorstore` ya cuenta con la colección y documentos indexados. Si ya existe, se reutiliza sin volver a gastar llamadas de API de embeddings. Permite forzar reindexación con `--force`. |
-| **Alucinaciones en preguntas fuera de contexto** | Se diseñó un System Prompt como "filtro de veracidad" con instrucciones explícitas de responder *"No lo sé"* o *"No dispongo de información"* y dejar la lista de `sources` vacía cuando la respuesta no esté en el contexto. |
-| **Salida no estructurada** | Integración nativa de `PydanticOutputParser` tipado con el modelo `RAGResponse`, asegurando que cada respuesta contenga campos validados: `answer`, `sources` y `confidence`. |
+| El "Contexto Infinito" / Lost in the Middle | El retriever está parametrizado con `top_k = 4` (`search_kwargs={"k": 4}`). Solo se inyectan en el prompt los fragmentos más relevantes, optimizando costos de tokens y concentración de atención del LLM. |
+| Embeddings no coincidentes | Se centralizó la instanciación en `embeddings.py` (`get_embedding_function()`). Tanto la ingesta en `ingest.py` como la consulta en `rag_chain.py` consumen exactamente el mismo modelo y parámetros. |
+| Falta de persistencia | La función `is_database_populated()` verifica si `./vectorstore` ya cuenta con la colección y documentos indexados. Si ya existe, se reutiliza sin volver a gastar llamadas de API de embeddings. Permite forzar reindexación con `--force`. |
+| Alucinaciones en preguntas fuera de contexto | Se diseñó un System Prompt como "filtro de veracidad" con instrucciones explícitas de responder "No lo sé" o "No dispongo de información" y dejar la lista de `sources` vacía cuando la respuesta no esté en el contexto. |
+| Salida no estructurada | Integración nativa de `PydanticOutputParser` tipado con el modelo `RAGResponse`, asegurando que cada respuesta contenga campos validados: `answer`, `sources` y `confidence`. |
 
 ---
 
-## 🚀 Instalación y Puesta en Marcha
+## Instalación y Puesta en Marcha
 
 ### 1. Clonar el repositorio y crear el entorno virtual
 
@@ -111,7 +111,7 @@ OPENAI_API_KEY=tu_api_key_aqui
 OPENAI_MODEL=gpt-4o-mini
 EMBEDDING_MODEL=text-embedding-3-small
 CHROMA_PERSIST_DIRECTORY=./vectorstore
-CHROMA_COLLECTION_NAME=novacore_knowledge_base
+CHROMA_COLLECTION_NAME=Company_knowledge_base
 CHUNK_SIZE=500
 CHUNK_OVERLAP=50
 TOP_K=4
@@ -121,7 +121,7 @@ TOP_K=4
 
 ---
 
-## 📖 Uso y Ejecución
+## Uso y Ejecución
 
 ### Opción A: Ejecución de las Pruebas Automatizadas (Recomendado)
 
@@ -153,7 +153,7 @@ jupyter notebook demo.ipynb
 
 ---
 
-## 🧪 Pruebas Realizadas y Resultados
+## Pruebas Realizadas y Resultados
 
 ### Prueba 1: Pregunta Válida (Información Presente)
 - **Consulta:** *"¿Cuál es el tiempo máximo de primera respuesta (SLA) para un incidente Sev-1 y a quién se debe escalar si la causa raíz no se identifica en los primeros 20 minutos?"*
@@ -183,7 +183,7 @@ jupyter notebook demo.ipynb
 
 ---
 
-## 🛡️ Seguridad
+## Seguridad
 
 - Las llaves de API nunca se suben al control de versiones; se gestionan de forma segura a través de `.env` (ignorado en `.gitignore`).
 - La base vectorial local se almacena en la carpeta excluida `./vectorstore`.
